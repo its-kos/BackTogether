@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackTogether.Migrations
 {
     [DbContext(typeof(BackTogetherContext))]
-    [Migration("20230717165356_UpdatedProject")]
-    partial class UpdatedProject
+    [Migration("20230724230545_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace BackTogether.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Backings");
+                    b.ToTable("Backing", (string)null);
                 });
 
             modelBuilder.Entity("BackTogether.Models.Project", b =>
@@ -62,7 +62,7 @@ namespace BackTogether.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<decimal>("CurrentFunding")
@@ -72,48 +72,25 @@ namespace BackTogether.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("FinalGoal")
-                        .HasColumnType("decimal(6, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("BackTogether.Models.ResourceURL", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("ResourceURL");
+                    b.ToTable("Project", (string)null);
                 });
 
             modelBuilder.Entity("BackTogether.Models.Reward", b =>
@@ -124,25 +101,22 @@ namespace BackTogether.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BackingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("UnlockAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BackingId");
 
                     b.HasIndex("ProjectId");
 
@@ -161,94 +135,33 @@ namespace BackTogether.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("HasAdminPrivileges")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ImageURLId")
-                        .HasColumnType("int");
+                    b.Property<string>("LastName")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("SignupDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageURLId");
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "example@email.com",
-                            HasAdminPrivileges = true,
-                            Password = "NZ#7eYB%",
-                            Username = "aFEf4w4f"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "example1@email.com",
-                            HasAdminPrivileges = true,
-                            Password = "6*%7rKNd",
-                            Username = "fa4gfwff"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "example2@email.com",
-                            HasAdminPrivileges = false,
-                            Password = "K^aB%s6T",
-                            Username = "tejh56eu"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "example3@email.com",
-                            HasAdminPrivileges = false,
-                            Password = "Fg75^U@j",
-                            Username = "f34g34qg"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Email = "example4@email.com",
-                            HasAdminPrivileges = false,
-                            Password = "#VEGu3it",
-                            Username = "fq34gqgf"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Email = "example5@email.com",
-                            HasAdminPrivileges = false,
-                            Password = "Cnk@XH23",
-                            Username = "qf34gq3g"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Email = "example6@email.com",
-                            HasAdminPrivileges = true,
-                            Password = "HpKY6N%X",
-                            Username = "f34qg4q3"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Email = "example7@email.com",
-                            HasAdminPrivileges = false,
-                            Password = "P6@%R6%a",
-                            Username = "n4eh6wqw"
-                        });
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("BackTogether.Models.Backing", b =>
@@ -256,13 +169,13 @@ namespace BackTogether.Migrations
                     b.HasOne("BackTogether.Models.Project", "Project")
                         .WithMany("Backings")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("BackTogether.Models.User", "User")
                         .WithMany("Backings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -275,24 +188,14 @@ namespace BackTogether.Migrations
                     b.HasOne("BackTogether.Models.User", "User")
                         .WithMany("Projects")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BackTogether.Models.ResourceURL", b =>
-                {
-                    b.HasOne("BackTogether.Models.Project", null)
-                        .WithMany("ImageURLS")
-                        .HasForeignKey("ProjectId");
-                });
-
             modelBuilder.Entity("BackTogether.Models.Reward", b =>
                 {
-                    b.HasOne("BackTogether.Models.Backing", null)
-                        .WithMany("RewardsUnlocked")
-                        .HasForeignKey("BackingId");
-
                     b.HasOne("BackTogether.Models.Project", "Project")
                         .WithMany("Rewards")
                         .HasForeignKey("ProjectId")
@@ -302,25 +205,9 @@ namespace BackTogether.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("BackTogether.Models.User", b =>
-                {
-                    b.HasOne("BackTogether.Models.ResourceURL", "ImageURL")
-                        .WithMany()
-                        .HasForeignKey("ImageURLId");
-
-                    b.Navigation("ImageURL");
-                });
-
-            modelBuilder.Entity("BackTogether.Models.Backing", b =>
-                {
-                    b.Navigation("RewardsUnlocked");
-                });
-
             modelBuilder.Entity("BackTogether.Models.Project", b =>
                 {
                     b.Navigation("Backings");
-
-                    b.Navigation("ImageURLS");
 
                     b.Navigation("Rewards");
                 });

@@ -17,8 +17,10 @@ internal class Program {
             options.UseSqlServer(builder.Configuration.GetConnectionString("BackTogetherDatabase"))
         );
 
-        // Add services to the container.
-        builder.Services.AddControllersWithViews();
+		builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+		// Add services to the container.
+		builder.Services.AddControllersWithViews();
         // For using and storing session info
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddSession(options => {
@@ -35,10 +37,20 @@ internal class Program {
             app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
-        }
+        } else {
+			app.UseDeveloperExceptionPage();
+			app.UseMigrationsEndPoint();
 
-        // Adding Middleware
-        app.UseSession();
+			using (var scope = app.Services.CreateScope()) {
+				var services = scope.ServiceProvider;
+				var context = services.GetRequiredService<BackTogetherContext>();
+				context.Database.EnsureCreated();
+				DbInitializer.Initialize(context);
+			}
+		}
+
+		// Adding Middleware
+		app.UseSession();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();

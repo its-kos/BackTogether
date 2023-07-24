@@ -35,8 +35,8 @@ namespace BackTogether.Controllers {
 
         // GET: Project/id/{id}
         [HttpGet]
-        public IActionResult Id(int id) {
-			Project project = _dbService.GetProjectById(id);
+        public async Task<IActionResult> Id(int id) {
+			Project project = await _dbService.GetProjectById(id);
             if (project == null) {
                 return View("Error");
             } else {
@@ -69,7 +69,7 @@ namespace BackTogether.Controllers {
         // See here: https://stackoverflow.com/questions/73734515/binding-complex-entities-inside-complex-entities-to-requests/73737722#73737722
         public IActionResult Create([Bind("Id,Title,Description,Category,UserId,DateCreated,CurrentFunding,FinalGoal")] Project project) {
             if (ModelState.IsValid) {
-                project.UserId = HttpContext.Session.GetInt32("SessionUserId");
+                //project.UserId = HttpContext.Session.GetInt32("SessionUserId");
                 project.DateCreated = DateTime.Now;
 				_dbService.CreateProject(project);
             }

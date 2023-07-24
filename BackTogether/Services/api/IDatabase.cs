@@ -10,47 +10,30 @@ namespace BackTogether.Services.api {
         /*  
          *  Create 
          */
-
-                    // Users //
-        public int CreateUser(User user);
-                    // Projects //
-        public int CreateProject(Project project);
+        public Task<int> CreateUser(User user);
+        public Task<int> CreateProject(Project project);
 
         /*  
          *  Read 
          */
-
-                    // Users //
-        public User? GetUserById(int? id);
-        private ResourceURL? GetResourceUrlById(int id) {
-            throw new NotImplementedException();
-        }
-        public User? GetUserByProjectId(int projectId);
-        public List<User> GetAllUsers();
-
-                    // Projects //
-        public Project? GetProjectById(int id);
-        public List<Project>? GetCreatedProjectsByUserId(int userId);
-        public List<Project>? GetBackedProjectsByUserId(int userId);
-
-        public List<Project> GetAllProjects(int amount);
+        public Task<User?> GetUserById(int? id);
+        public Task<User?> GetUserByProjectId(int projectId);
+        public Task<List<User>> GetAllUsers();
+        public Task<Project?> GetProjectById(int id);
+        public Task<List<Project>?> GetCreatedProjectsByUserId(int userId);
+        public Task<List<Project>?> GetBackedProjectsByUserId(int userId);
+        public Task<List<Project>> GetAllProjects(int amount);
 
         /* 
          * Update 
          */
-
-                    // Users //
-        public User UpdateUser(User user);
-                    // Projects //
-        public Project UpdateProject(Project project);
+        public Task<User> UpdateUser(User user);
+        public Task<Project> UpdateProject(Project project);
 
         /* 
          * Delete 
          */
-
-                    // Users //
-        public bool DeleteUser(int id);
-                    // Projects //
-        public bool DeleteProject(int id);
+        public Task<bool> DeleteUser(int id);
+        public Task<bool> DeleteProject(int id);
     }
 }
